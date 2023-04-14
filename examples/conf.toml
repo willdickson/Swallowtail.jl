@@ -1,0 +1,40 @@
+[mesh]
+ds = 0.005            
+len.x = 1.0
+len.y = 1.0
+
+[save]
+nstep = 100 
+npads = 6
+directory = '~/work/simdata/driven_cavity'
+
+[fluid]
+kvisc   = 2.0e-5     
+density = 1.0        
+
+[init]
+type = 'constant'
+velocity.x = 0.0
+velocity.y = 0.0
+
+[bndry.left]
+type = 'noslip'
+value = nan 
+
+[bndry.right]
+type = 'noslip'
+value = nan 
+
+[bndry.top]
+type ='moving'
+value = 0.1 
+
+[bndry.bottom]
+type = 'noslip'
+value = nan
+
+[stop]       
+type  = "time"       
+time  = 500.0         
+etol  = nan
+
