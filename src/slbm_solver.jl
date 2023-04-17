@@ -141,8 +141,8 @@ function predictor!(;
     interior_inds = CartesianIndices((2:n-1,2:m-1)) # NOTE: 2D specific
     lattice_vals = zip(evals, wvals, einds)
 
-    #Threads.@threads for i in interior_inds
-    for i in interior_inds 
+    Threads.@threads for i in interior_inds
+    #for i in interior_inds 
         ρ_last[i] = ρ_curr[i]
         u_last[i] = u_curr[i]
         ρ_pred[i] = 0.0
@@ -203,8 +203,8 @@ function corrector!(;
     interior_inds = CartesianIndices((2:n-1,2:m-1)) # NOTE: 2D specific
     lattice_vals = zip(evals, wvals, einds)
 
-    #Threads.@threads for i in interior_inds
-    for i in interior_inds 
+    Threads.@threads for i in interior_inds
+    #for i in interior_inds 
         u_curr[i] = ρ_pred[i]*u_pred[i]
         for (ek, wk, ik) in lattice_vals
             feq = equilib(

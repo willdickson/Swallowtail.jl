@@ -21,19 +21,18 @@ function vorticity2d(u, Δs)
 end
 
 
-function loaddata(n::Int)
-    npad = lpad(n,6,"0")
-    datadir = expanduser("~/work/simdata/driven_cavity/")
+function loaddata(datadir::String, savenum::Int)
+    npad = lpad(savenum,6,"0")
+    datadir = expanduser(datadir)
     filename = "$npad.jld2"
     filepath = joinpath(datadir, filename)
     println("loading $filepath")
-    println(isfile(filepath))
     return load_object(filepath)
 end
 
 
-function plotvort(k::Int)
-    ss = loaddata(k)
+function plotvort(datadir::String, savenum::Int)
+    ss = loaddata(datadir, savenum)
     curr = ss.fluid.curr
     ind = CartesianIndices(size(curr.ρ))
     Δs = ss.Δs
@@ -45,15 +44,12 @@ function plotvort(k::Int)
     heatmap(x, y, ω', Axes(cbrange=(-0.3,0.3), size="square"))
 end
 
-function plotvecs(n::Int)
+function plotvecs(datadir::String, savenum::Int)
 
-    ss = loaddata(n)
+    ss = loaddata(datadir, savenum)
     curr = ss.fluid.curr
     Δs = ss.Δs
-
     ind = CartesianIndices(size(curr.ρ))
-    println(ind)
-
     scale = 1.0
     x = vec([Δs*i[1] for i in ind])
     y = vec([Δs*i[2] for i in ind])
@@ -63,6 +59,50 @@ function plotvecs(n::Int)
     k = 1
     plot(
          x[1:k:end], 
+         y[1:k:end], 
+         supp=[ux[1:k:end] uy[1:k:end]], 
+         w=:vectors, 
+         Axes(size="square"),
+        )
+
+end
+
+function plotvecs(datadir::String, savenum::Int, sectnum::Int)
+    ss = loaddata(datadir, savenum)
+    curr = ss.fluid.curr
+    Δs = ss.Δs
+    ind = CartesianIndices(size(curr.ρ))
+    scale = 1.0
+    x = vec([Δs*i[1] for i in ind][sectnum,:])
+    y = vec([Δs*i[2] for i in ind][sectnum,:])
+    ux = scale*vec([curr.u[i][1] for i in ind][sectnum,:])
+    uy = scale*vec([curr.u[i][2] for i in ind][sectnum,:])
+
+    k = 1
+    plot(
+         x[1:k:end], 
+         y[1:k:end], 
+         supp=[ux[1:k:end] uy[1:k:end]], 
+         w=:vectors, 
+         Axes(size="square"),
+        )
+
+end
+
+function plotvecs(datadir::String, savenum::Int, sectnums::Array{Int})
+    ss = loaddata(datadir, savenum)
+    curr = ss.fluid.curr
+    Δs = ss.Δs
+    ind = CartesianIndices(size(curr.ρ))
+    scale = 1.0
+    x = vec([Δs*i[1] for i in ind][sectnums,:])
+    y = vec([Δs*i[2] for i in ind][sectnums,:])
+    ux = scale*vec([curr.u[i][1] for i in ind][sectnums,:])
+    uy = scale*vec([curr.u[i][2] for i in ind][sectnums,:])
+
+    k = 1
+    plot(
+         x[1:k:end]*0.0, 
          y[1:k:end], 
          supp=[ux[1:k:end] uy[1:k:end]], 
          w=:vectors, 

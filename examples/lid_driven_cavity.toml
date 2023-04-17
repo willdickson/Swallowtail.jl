@@ -1,34 +1,33 @@
 [mesh]
-ds = 0.01            
-len.x = 10.0
+ds = 0.005            
+len.x = 1.0
 len.y = 1.0
 
 [save]
 nstep = 100 
 npads = 6
-directory = '~/work/simdata/pipe_flow'
+directory = '~/work/simdata/driven_cavity'
 
 [fluid]
-#kvisc   = 2.0e-5     
-kvisc   = 1.0e-3     
+kvisc   = 2.0e-5     
 density = 1.0        
 
 [init]
 type = 'constant'
-velocity.x = 0.1
+velocity.x = 0.0
 velocity.y = 0.0
 
 [bndry.left]
-type = 'inflow'
-value = 0.1 
+type = 'noslip'
+value = nan 
 
 [bndry.right]
-type = 'outflow'
+type = 'noslip'
 value = nan 
 
 [bndry.top]
-type ='noslip'
-value = nan 
+type ='moving'
+value = 0.1 
 
 [bndry.bottom]
 type = 'noslip'

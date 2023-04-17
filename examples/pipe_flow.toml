@@ -9,8 +9,7 @@ npads = 6
 directory = '~/work/simdata/pipe_flow'
 
 [fluid]
-#kvisc   = 2.0e-5     
-kvisc   = 1.0e-3     
+kvisc   = 2.0e-5     
 density = 1.0        
 
 [init]

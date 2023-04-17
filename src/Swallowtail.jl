@@ -20,7 +20,7 @@ include("save.jl")
 include("slbm_solver.jl")
 include("viz.jl")
 
-export runsim, plotvecs, plotvort
+export runsim, plotvecs, plotvort, loaddata
 
 function runsim(;conffile="examples/conf.toml")
     ss = SolverState(conffile)
@@ -28,9 +28,9 @@ function runsim(;conffile="examples/conf.toml")
     runsolver(ss)
 end
 
-#if !isinteractive()
+
+#if isinteractive() == false
 #    runsim()
 #end
-
 
 end # module Swallowtail
